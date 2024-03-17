@@ -3,7 +3,7 @@
 
 <?php
 
-$valor;
+
 
 for ($valor = 25; $valor <= 60; $valor++) {
     
