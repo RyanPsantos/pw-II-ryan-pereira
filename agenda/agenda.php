@@ -8,7 +8,46 @@
         <h1>Agenda de Contatos</h1>
 
     <?php
-    if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $dsn = 'mysql:host=localhost;dbname=agenda';
+    $username = 'root';
+    $password = '';
+
+    try{
+        //Conexão com BD pelo PDO
+        $pdo = new PDO($dsn, $username, $password);
+
+        //caso der erros
+        $pdo ->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+        if($_SERVER['REQUEST_METHOD'] === 'POST') {
+
+           $nome = $_POST['nome'];
+           $telefone = $_POST['telefone'];
+           $email = $_POST['email'];
+
+           //Consulta SQL
+           $sql = "INSERT INTO contatos (nome, telefone, email)
+           VALUES (:nome, :telefone, :email)";
+
+           //prepara a eclaração
+           $stmt = $pdo ->prepare($sql);
+
+           $stmt->bindValue(':nome', $nome, PDO::PARAM_STR);
+           $stmt->bindValue(':telefone', $telefone, PDO::PARAM_STR);
+           $stmt->bindValue(':email', $email, PDO::PARAM_STR);
+
+           //Executa a consulta
+           $stmt->execute();
+
+           echo "Dados inseridos com sucesso!";
+
+        }
+    } catch(PDOExcepticon $e) {
+        //mensagem de erro que será mostrada caso dê erro
+        echo "Erro: " .$e->getMessage();
+    }
+
+    /*if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $nome = htmlspecialchars($_POST['nome']);
         $telefone = htmlspecialchars($_POST['telefone']);
         $email = htmlspecialchars($_POST['email']);
@@ -19,7 +58,7 @@
             
             /* Abre o arquivo CSV para escrita, o Arquivo csv é criado para testar 
             se o form ta funcionando se tiver ele vai abrir um arquivo excel na pasta 
-            fiz so por equanto ja que precisamos do BD */
+            fiz so por equanto ja que precisamos do BD 
             $file = fopen('contatos.csv', 'a');
             
             // Escreve os dados do contato no arquivo CSV
@@ -32,7 +71,7 @@
         } else {
             echo "<p style='color:red;'>Por favor, preencha todos os campos.</p>";
         }
-    }
+    }*/
     ?>
 
         <form action="" method="post">
