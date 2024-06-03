@@ -2,10 +2,12 @@
 <html lang="pt-BR">
     <head>
         <meta charset="UTF-8">
+        <link rel=stylesheet href="css/style.css">
         <title>Agenda</title>
     </head>
+    
     <body>
-        <h1>Agenda de Contatos</h1>
+        <h1 class="titulo">Agenda de Contatos</h1>
 
     <?php
     $dsn = 'mysql:host=localhost;dbname=agenda';
@@ -73,10 +75,12 @@
         }
     }*/
     ?>
-
+    
+    <div class="form-floating mb-3">
         <form action="" method="post">
-            <label for="nome">Nome:</label>
-            <input type="text" id="nome" name="nome" required="required"><br><br>
+            <input type="text" class="form-control" id="floatingInput" placeholder="Pedro Cabral">
+            <label for="floatingInput">Nome:</label><br><br>
+    </div>
 
             <label for="telefone">Telefone:</label>
             <input type="text" id="telefone" name="telefone" required="required"><br><br>
