@@ -2,10 +2,14 @@
 <html lang="pt-BR">
     <head>
         <meta charset="UTF-8">
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+        <link rel="stylesheet" href="css/style.css">
         <title>Agenda</title>
     </head>
+    
     <body>
-        <h1>Agenda de Contatos</h1>
+    <div class="conteudo">
+        <h1 class="titulo" class="text-info bg-dark">Agenda de Contatos</h1>
 
     <?php
     $dsn = 'mysql:host=localhost;dbname=agenda';
@@ -73,18 +77,26 @@
         }
     }*/
     ?>
+    <form action="" method="post" novalidate>
+        <div class="form-floating mb-3">
+            <input type="text" class="form-control" id="validationCustom01" id="floatingInput" placeholder="nOME">
+            <label for="floatingInput" class="lbl_titulo">Nome:</label><br><br>
+        </div>
 
-        <form action="" method="post">
-            <label for="nome">Nome:</label>
-            <input type="text" id="nome" name="nome" required="required"><br><br>
+        <div class="form-floating mb-3">
+            <input type="text" class="form-control" id="telefone" name="telefone"  placeholder="Número" required="required">
+            <label for="floatingInput" class="lbl_titulo">Telefone:</label><br><br>
+        </div>  
 
-            <label for="telefone">Telefone:</label>
-            <input type="text" id="telefone" name="telefone" required="required"><br><br>
+        <div class="form-floating mb-3">
+            <input type="email" class="form-control" id="email" name="email" placeholder="Email" required="required">
+            <label for="floatingInput" class="lbl_titulo">Email:</label><br><br>
+        </div>
 
-            <label for="email">Email:</label>
-            <input type="email" id="email" name="email" required="required"><br><br>
-
-            <input type="submit" value="Adicionar Contato">
+        <div class="col-md-4">
+            <button type="submit" class="btn btn-primary" id="botao">Adicionar contato</button>
+        </div>
         </form>
+        </div>
     </body>
 </html>
