@@ -50,36 +50,11 @@
         //mensagem de erro que será mostrada caso dê erro
         echo "Erro: " .$e->getMessage();
     }
-
-    /*if ($_SERVER["REQUEST_METHOD"] == "POST") {
-        $nome = htmlspecialchars($_POST['nome']);
-        $telefone = htmlspecialchars($_POST['telefone']);
-        $email = htmlspecialchars($_POST['email']);
-        
-        // Validação simples esta verificando se os campos foram preenchidos
-        if (!empty($nome) && !empty($telefone) && !empty($email)) {
-            $contato = [$nome, $telefone, $email];
-            
-            /* Abre o arquivo CSV para escrita, o Arquivo csv é criado para testar 
-            se o form ta funcionando se tiver ele vai abrir um arquivo excel na pasta 
-            fiz so por equanto ja que precisamos do BD 
-            $file = fopen('contatos.csv', 'a');
-            
-            // Escreve os dados do contato no arquivo CSV
-            fputcsv($file, $contato);
-            
-            // Fecha o arquivo
-            fclose($file);
-            
-            echo "<p style='color:green;'>Contato adicionado com sucesso!</p>";
-        } else {
-            echo "<p style='color:red;'>Por favor, preencha todos os campos.</p>";
-        }
-    }*/
+    
     ?>
     <form action="" method="post" novalidate>
         <div class="form-floating mb-3">
-            <input type="text" class="form-control" id="validationCustom01" id="floatingInput" placeholder="nOME">
+            <input type="text" class="form-control" id="nome" name="nome" placeholder="Nome" required="required">
             <label for="floatingInput" class="lbl_titulo">Nome:</label><br><br>
         </div>
 
