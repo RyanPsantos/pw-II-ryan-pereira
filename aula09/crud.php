@@ -32,7 +32,7 @@ function excluirNome($id) {
     $db->query($sql);
 }
 
-//Ações dod CRUD
+//Ações do CRUD
 $acao = isset($_GET['acao']) ? $_GET['acao'] : null;
 $id = isset($_GET['id']) ? intval($_GET['id']) : 0;
 $nome = isset($_POST['nome']) ? $_POST['nome'] : '';
@@ -58,7 +58,6 @@ if ($acao === 'adicionar') {
 // Obter todos os nomes
     $nomes = getNomes();
 ?>
-
 <h1>Lista de Nomes</h1>
 <form method="post" action="?acao=adicionar">
     <label for="nome">Nome:</label>
@@ -76,7 +75,11 @@ if ($acao === 'adicionar') {
         <td><?php echo $nome['id']; ?></td>
         <td><?php echo $nome['nome']; ?></td>
         <td>
-            <a href=""></a>
+            <a href="?acao=editar&id=><?php echo $nome['id'];?>
+            &nome=<?php echo urlencode($nome['nome']); ?>">Editar</a> |
+            <a href="?acao=excluir&id=<?php echo $nome['id']; ?>">Excluir</a>
         </td>
     </tr>
+    <?php endforeach; ?>
 </table>
+<?php $db->close(); ?>
