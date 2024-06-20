@@ -43,6 +43,7 @@ INSERT INTO `contatos` (`id`, `nome`, `telefone`, `email`) VALUES
 (1, 'ryan', 2921, 'tantofaz@gmail.com'),
 (2, 'ryan', 2921, 'tantofaz@gmail.com'),
 (3, 'aaaa', 232, 'eyeye@gmail.com');
+(5, 'yvisom', 25482518, 'gmail@gmail.com');
 
 --
 -- Índices para tabelas despejadas
