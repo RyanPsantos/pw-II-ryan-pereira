@@ -101,40 +101,52 @@ $bd->close();
 <html lang="pt-BR">
     <head>
         <meta charset="UTF-8">
+        <link
+            href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+            rel="stylesheet"
+            integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
+            crossorigin="anonymous">
+        <link rel="stylesheet" href="css/style.css">
         <title>Editar Contato</title>
     </head>
     <body>
-        <h1>Editar Contato</h1>
-        <form method="post">
-            <div>
-                <label for="novo_nome">Nome:</label>
-                <input
-                    type="text"
-                    id="novo_nome"
-                    name="novo_nome"
-                    value="<?php echo htmlspecialchars($nomeOriginal); ?>"
-                    required="required">
-            </div>
-            <div>
-                <label for="novo_telefone">Telefone:</label>
-                <input
-                    type="text"
-                    id="novo_telefone"
-                    name="novo_telefone"
-                    value="<?php echo htmlspecialchars($telefoneOriginal); ?>"
-                    required="required">
-            </div>
-            <div>
-                <label for="novo_email">Email:</label>
-                <input
-                    type="email"
-                    id="novo_email"
-                    name="novo_email"
-                    value="<?php echo htmlspecialchars($emailOriginal); ?>"
-                    required="required">
-            </div>
-            <input type="hidden" name="id" value="<?php echo $id; ?>">
-            <button type="submit">Atualizar Contato</button>
-        </form>
+        <div class="conteudo">
+            <h1 class="text-info bg-dark">Editar Contato</h1>
+            <form action="?acao=editar" method="post" novalidate="novalidate">
+                <div class="form-floating mb-3">
+                    <input
+                        class="form-control"
+                        type="text"
+                        id="novo_nome"
+                        name="novo_nome"
+                        value="<?php echo htmlspecialchars($nomeOriginal); ?>"
+                        required="required">
+                    <label for="novo_nome" class="lbl_titulo">Nome:</label>
+                </div>
+                <div class="form-floating mb-3">
+                    <input
+                        class="form-control"
+                        type="text"
+                        id="novo_telefone"
+                        name="novo_telefone"
+                        value="<?php echo htmlspecialchars($telefoneOriginal); ?>"
+                        required="required">
+                    <label for="novo_telefone" class="lbl_titulo">Telefone:</label>
+                </div>
+                <div class="form-floating mb-3">
+                    <input
+                        class="form-control"
+                        type="email"
+                        id="novo_email"
+                        name="novo_email"
+                        value="<?php echo htmlspecialchars($emailOriginal); ?>"
+                        required="required">
+                    <label for="novo_email" class="lbl_titulo">Email:</label>
+                </div>
+                <div class="col-md-4">
+                <button type="submit" class="btn btn-primary" id="botao_atualizar">Atualizar Contato</button>
+                </div>
+            </form>
+        </div>
     </body>
 </html>
