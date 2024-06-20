@@ -1,5 +1,5 @@
 <?php
-$bd = new mysqli('localhost', 'root', 'agenda');
+$bd = new mysqli('localhost', 'root','', 'agenda');
 
 function getContatos() {
     global $bd;
@@ -43,7 +43,7 @@ function adicEmail($email) {
     $bd->query($sql);
 }
 
-function editTelefone($id, $email) {
+function editEmail($id, $email) {
     global $bd;
     $sql = "UPDATE contatos SET email = '$email' WHERE id = $id";
     $bd->query($sql);
@@ -56,18 +56,35 @@ function excluirDados($id) {
 }
 
 $acao = isset($_GET['acao']) ? $_GET['acao'] : null;
-$id = isset($_GET['id'] ? intval($_GET['id'])) : 0;
+$id = isset($_GET['id']) ? intval($_GET['id']) : 0;
 $nome = isset($_POST['nome']) ? $_POST['nome'] : '';
+$tel = isset($_POST['telefone']) ? $_POST['telefone'] : '';
+$email = isset($_POST['email']) ? $_POST['email'] : '';
 
 if ($acao === 'adicionar') {
     adicNome($nome);
-    header('Location: BDagenda.php');
+    adicTelefone($tel);
+    adicEmail($email);
+    header('Location: bdaenda.php');
     exit();
 } elseif ($acao === 'editar') {
     $id = intval($_GET['id']);
     $nomeoriginal = ($_GET['nome']);
     $nome = $_POST['nome'];
+    $telloriginal = $_GET['telefone'];
+    $tel = $_POST['telefone'];
+    $emailoriginal = $_GET['email'];
+    $email = $_POST['email']
     editNome($id, $nome);
-    header('Location: BDagenda.php');
+    editTelefone($id, $tel);
+    editEmail($id, $email);
+    header('Location: bdagenda.php?id='. $id. 'nome='. $nomeoriginal. 'telefone='. $telloriginal. 'email='. $emailoriginal);
+    exit();
+} elseif ($acao ==='excluir') {
+    excluirDados($id);
+    header('Location: bdagenda.php');
+    exit();
 }
+
+    $contatos = getContatos(); 
 ?>
