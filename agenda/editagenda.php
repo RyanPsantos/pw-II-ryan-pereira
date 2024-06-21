@@ -1,6 +1,72 @@
 <?php
 $bd = new mysqli('localhost', 'root', '', 'agenda');
 
+if($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $id = isset($_POST['id']) ? $_POST['id'] : null;
+    echo $id;
+
+
+    if (isset($_POST['novo_nome'])) {
+        $novoNome = trim($_POST['novo_nome']);
+        $novoNome = filter_var($novoNome, FILTER_SANITIZE_STRING);
+
+        if ($novoNome === '') {
+            echo "Erro: Novo nome não pode ser vazio.";
+            exit();
+        }
+
+        $sqlUpdateNome = "UPDATE contatos SET nome = '$novoNome' WHERE id = '$id'";
+        $resultUpdateNome = $bd->query($sqlUpdateNome);
+
+        if ($resultUpdateNome === false) {
+            echo "Erro: Falha ao atualizar o nome.";
+            exit();
+        }
+    }
+
+    // Atualizar o telefone, se o novo telefone foi recebido
+    if (isset($_POST['novo_telefone'])) {
+        $novoTelefone = trim($_POST['novo_telefone']);
+        $novoTelefone = filter_var($novoTelefone, FILTER_SANITIZE_STRING);
+
+        if ($novoTelefone === '') {
+            echo "Erro: Novo telefone não pode ser vazio.";
+            exit();
+        }
+
+        $sqlUpdateTelefone = "UPDATE contatos SET telefone = '$novoTelefone' WHERE id = '$id'";
+        $resultUpdateTelefone = $bd->query($sqlUpdateTelefone);
+
+        if ($resultUpdateTelefone === false) {
+            echo "Erro: Falha ao atualizar o telefone.";
+            exit();
+        }
+    }
+
+    // Atualizar o email, se o novo email foi recebido
+    if (isset($_POST['novo_email'])) {
+        $novoEmail = trim($_POST['novo_email']);
+        $novoEmail = filter_var($novoEmail, FILTER_SANITIZE_EMAIL);
+
+        if (!filter_var($novoEmail, FILTER_VALIDATE_EMAIL)) {
+            echo "Erro: Email inválido.";
+            exit();
+        }
+
+        $sqlUpdateEmail = "UPDATE contatos SET email = '$novoEmail' WHERE id = '$id'";
+        $resultUpdateEmail = $bd->query($sqlUpdateEmail);
+
+        if ($resultUpdateEmail === false) {
+            echo "Erro: Falha ao atualizar o email.";
+            exit();
+        }
+    }
+
+    // Redirecionar após a atualização
+    header('Location: agenda.php');
+    exit();
+}
+
 if ($bd->connect_error) {
     echo "Erro: Falha ao conectar ao banco de dados. " . $bd->connect_error;
     exit();
@@ -23,78 +89,17 @@ if ($resultContato->num_rows == 0) {
     exit();
 }
 
+ 
+
 $contato = $resultContato->fetch_assoc();
 $nomeOriginal = $contato['nome'];
 $telefoneOriginal = $contato['telefone'];
 $emailOriginal = $contato['email'];
 
-// validar e atualizar os dados no banco de dados
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-   
-    // Atualizar o nome, se o novo nome foi recebido
-    if (isset($_POST['novo_nome'])) {
-        $novoNome = trim($_POST['novo_nome']);
-        $novoNome = filter_var($novoNome, FILTER_SANITIZE_STRING);
-
-        if ($novoNome === '') {
-            echo "Erro: Novo nome não pode ser vazio.";
-            exit();
-        }
-
-        $sqlUpdateNome = "UPDATE contatos SET nome = '$novoNome' WHERE id = $id";
-        $resultUpdateNome = $bd->query($sqlUpdateNome);
-
-        if ($resultUpdateNome === false) {
-            echo "Erro: Falha ao atualizar o nome.";
-            exit();
-        }
-    }
-
-    // Atualizar o telefone, se o novo telefone foi recebido
-    if (isset($_POST['novo_telefone'])) {
-        $novoTelefone = trim($_POST['novo_telefone']);
-        $novoTelefone = filter_var($novoTelefone, FILTER_SANITIZE_STRING);
-
-        if ($novoTelefone === '') {
-            echo "Erro: Novo telefone não pode ser vazio.";
-            exit();
-        }
-
-        $sqlUpdateTelefone = "UPDATE contatos SET telefone = '$novoTelefone' WHERE id = $id";
-        $resultUpdateTelefone = $bd->query($sqlUpdateTelefone);
-
-        if ($resultUpdateTelefone === false) {
-            echo "Erro: Falha ao atualizar o telefone.";
-            exit();
-        }
-    }
-
-    // Atualizar o email, se o novo email foi recebido
-    if (isset($_POST['novo_email'])) {
-        $novoEmail = trim($_POST['novo_email']);
-        $novoEmail = filter_var($novoEmail, FILTER_SANITIZE_EMAIL);
-
-        if (!filter_var($novoEmail, FILTER_VALIDATE_EMAIL)) {
-            echo "Erro: Email inválido.";
-            exit();
-        }
-
-        $sqlUpdateEmail = "UPDATE contatos SET email = '$novoEmail' WHERE id = $id";
-        $resultUpdateEmail = $bd->query($sqlUpdateEmail);
-
-        if ($resultUpdateEmail === false) {
-            echo "Erro: Falha ao atualizar o email.";
-            exit();
-        }
-    }
-
-    // Redirecionar após a atualização
-    header('Location: agenda.php');
-    exit();
-}
-
 // Fechar a conexão com o banco de dados
 $bd->close();
+
+echo $id;
 ?>
 
 <!DOCTYPE html>
@@ -112,14 +117,15 @@ $bd->close();
     <body>
         <div class="conteudo">
             <h1 class="text-info bg-dark">Editar Contato</h1>
-            <form action="?acao=editar" method="post" novalidate="novalidate">
+            <form method="post" novalidate="novalidate">
+                <input style="display: none" name="id" id="id" value="<?php echo $id; ?>">
                 <div class="form-floating mb-3">
                     <input
                         class="form-control"
                         type="text"
                         id="novo_nome"
                         name="novo_nome"
-                        value="<?php echo htmlspecialchars($nomeOriginal); ?>"
+                        value="<?php echo ($nomeOriginal); ?>"
                         required="required">
                     <label for="novo_nome" class="lbl_titulo">Nome:</label>
                 </div>
@@ -129,7 +135,7 @@ $bd->close();
                         type="text"
                         id="novo_telefone"
                         name="novo_telefone"
-                        value="<?php echo htmlspecialchars($telefoneOriginal); ?>"
+                        value="<?php echo ($telefoneOriginal); ?>"
                         required="required">
                     <label for="novo_telefone" class="lbl_titulo">Telefone:</label>
                 </div>
@@ -139,7 +145,7 @@ $bd->close();
                         type="email"
                         id="novo_email"
                         name="novo_email"
-                        value="<?php echo htmlspecialchars($emailOriginal); ?>"
+                        value="<?php echo($emailOriginal); ?>"
                         required="required">
                     <label for="novo_email" class="lbl_titulo">Email:</label>
                 </div>

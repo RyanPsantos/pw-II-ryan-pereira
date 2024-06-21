@@ -29,3 +29,10 @@ body{
     border-color: #536470;
     margin-top: 6%;
 }
+.table{
+
+    margin-right: 2%;
+}
+#style_table{
+    overflow-x:auto;
+}

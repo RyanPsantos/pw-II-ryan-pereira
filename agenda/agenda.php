@@ -17,12 +17,7 @@ function adicionarContato($nome, $telefone, $email) {
     $sql = "INSERT INTO contatos (nome, telefone, email) VALUES ('$nome', '$telefone', '$email')"; 
     $bd->query($sql);
 }
- // Criei uma nova function editarContato
-function editarContato($id, $nome, $telefone, $email) {
-    global $bd;
-    $sql = "UPDATE contatos SET nome = '$nome', telefone = '$telefone', email = '$email' WHERE id = $id";
-    $bd->query($sql);
-}
+
 // Criei uma nova function excluirContato
 function excluirContato($id) {
     global $bd;
@@ -30,8 +25,15 @@ function excluirContato($id) {
     $bd->query($sql);
 }
 
+// Criei uma nova function editarContato
+function editarContato($id, $nome, $telefone, $email) {
+    global $bd;
+    $sql = "UPDATE contatos SET nome = '$nome', telefone = '$telefone', email = '$email' WHERE id = $id";
+    $bd->query($sql);
+}
+
 $acao = isset($_GET['acao']) ? $_GET['acao'] : null;
-$id = isset($_GET['id']) ? intval($_GET['id']) : 0;
+$id = isset($_GET['id']) ? intval($_GET['id']) : 10;
 $nome = isset($_POST['nome']) ? $_POST['nome'] : '';
 $telefone = isset($_POST['telefone']) ? $_POST['telefone'] : '';
 $email = isset($_POST['email']) ? $_POST['email'] : '';
@@ -45,7 +47,7 @@ if ($acao === 'adicionar') {
     $nome = $_POST['nome'];
     $telefone = $_POST['telefone'];
     $email = $_POST['email'];
-    editarContato($id, $nome, $telefone, $email); // utilizei a nova function criada
+    // editarContato($id, $nome, $telefone, $email); // utilizei a nova function criada
     header("Location: editagenda.php?id=$id&nome=" . urlencode($nome) . "&telefone=" . urlencode($telefone) . "&email=" . urlencode($email));
     exit();
 } elseif ($acao === 'excluir') {
@@ -87,14 +89,15 @@ $contatos = getContatos();
         </div>
     </form>
     <br>
+    <div id="style_table">
     <table class="table">
         <thead>
             <tr>
-                <th>ID</th>
-                <th>Nome</th>
-                <th>Telefone</th>
-                <th>Email</th>
-                <th>Ações</th>
+                <th scope="col">ID</th>
+                <th scope="col">Nome</th>
+                <th scope="col">Email</th>
+                <th scope="col">Telefone</th>
+                <th scope="col">Ações</th>
             </tr>
         </thead>
         <tbody>
@@ -112,6 +115,7 @@ $contatos = getContatos();
             <?php endforeach; ?>
         </tbody>
     </table>
+    </div>
 </div>
 </body>
 </html>
